@@ -1,0 +1,49 @@
+networks:
+  network:
+    name: ${PROJECT_NAME}-network
+
+volumes:
+  postgres_data:
+
+services:
+  db:
+    container_name: ${PROJECT_NAME}-db
+    image: postgres:18.3-alpine
+    command: -c config_file=/etc/postgresql.conf
+    ports:
+      - ${DB_PORT:-5432}:5432
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+    networks:
+      - network
+    expose:
+      - ${DB_PORT}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB -p $$POSTGRES_PORT" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./postgresql/postgresql.conf:/etc/postgresql.conf
+      - ./postgresql/pg_hba.conf:/etc/pg_hba.conf
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: ${PROJECT_NAME}-backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    env_file:
+      - .env
+    ports:
+      - ${OUTER_PORT}:${INNER_PORT}
+    networks:
+      - network
+    volumes:
+        - ./app:/app
