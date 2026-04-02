@@ -19,6 +19,7 @@ class ItemStock(Base):
     )
 
     item = relationship("Item", back_populates="stocks")
+    order_items = relationship("OrderItem", back_populates="stock")
 
     @property
     def available_quantity(self):
