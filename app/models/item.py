@@ -11,3 +11,5 @@ class Item(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False, comment="Название")
     description = Column(String, nullable=True, comment="Описание")
+
+    stock = relationship("ItemStock", back_populates="item",)
