@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_HOST: str
     DB_PORT: int
-    DEBUG: bool
+    DEBUG: bool = False
 
     @property
     def database_url(self) -> str:
