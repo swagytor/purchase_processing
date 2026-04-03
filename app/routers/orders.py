@@ -22,7 +22,9 @@ router = APIRouter(prefix="/orders")
 async def create_order(
     payload: OrderCreate,
     user_id: int = Depends(get_user_id),
-    create_order_service: CreateOrderService = Depends(get_create_order_service),
+    create_order_service: CreateOrderService = Depends(
+        get_create_order_service
+    ),
 ):
     try:
         order = await create_order_service(
@@ -36,14 +38,24 @@ async def create_order(
 
     return order
 
+
 @router.get("/", response_model=List[OrderRead])
-async def read_orders(user_id: int = Depends(get_user_id), db: AsyncSession = Depends(get_db)):
+async def read_orders(
+    user_id: int = Depends(get_user_id), db: AsyncSession = Depends(get_db)
+):
     orders = await get_orders_by_user(db, user_id)
 
     return orders
 
+
 @router.post("/{order_id}/confirm/", response_model=OrderDetailRead)
-async def confirm_order(order_id: int, user_id: int = Depends(get_user_id), confirm_order_service: ConfirmOrderService = Depends(get_confirm_order_service)):
+async def confirm_order(
+    order_id: int,
+    user_id: int = Depends(get_user_id),
+    confirm_order_service: ConfirmOrderService = Depends(
+        get_confirm_order_service
+    ),
+):
     try:
         order = await confirm_order_service(order_id=order_id, user_id=user_id)
     except Exception as e:
@@ -51,8 +63,15 @@ async def confirm_order(order_id: int, user_id: int = Depends(get_user_id), conf
 
     return order
 
+
 @router.post("/{order_id}/decline/", response_model=OrderDetailRead)
-async def decline_order(order_id: int, user_id: int = Depends(get_user_id), decline_order_service: ConfirmOrderService = Depends(get_decline_order_service)):
+async def decline_order(
+    order_id: int,
+    user_id: int = Depends(get_user_id),
+    decline_order_service: ConfirmOrderService = Depends(
+        get_decline_order_service
+    ),
+):
     try:
         order = await decline_order_service(order_id=order_id, user_id=user_id)
     except Exception as e:

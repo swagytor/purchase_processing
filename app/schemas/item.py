@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+
 class ItemStockRead(BaseModel):
     id: int
     price: int
@@ -12,12 +13,14 @@ class ItemStockRead(BaseModel):
     class Config:
         from_attributes = True
 
+
 class ItemRead(BaseModel):
     id: int
     title: str
 
     class Config:
         from_attributes = True
+
 
 class ItemDetailRead(ItemRead):
     description: Optional[str] = None

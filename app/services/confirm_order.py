@@ -51,7 +51,9 @@ class ConfirmOrderService:
     async def write_off_order_items(self, order: Order) -> None:
         for order_item in order.order_items:
             query = (
-                select(ItemStock).where(ItemStock.id == order_item.stock_id).with_for_update()
+                select(ItemStock)
+                .where(ItemStock.id == order_item.stock_id)
+                .with_for_update()
             )
             result_stock = await self.db.execute(query)
             stock = result_stock.scalars().first()
@@ -60,7 +62,9 @@ class ConfirmOrderService:
 
             # Списываем фактическое и зарезервированное количество
             if stock.reserved_quantity < order_item.quantity:
-                raise Exception(f"Недостаточно зарезервированных товаров в стоке {stock.id}")
+                raise Exception(
+                    f"Недостаточно зарезервированных товаров в стоке {stock.id}"  # noqa E501
+                )
 
             stock.reserved_quantity -= order_item.quantity
             stock.quantity -= order_item.quantity

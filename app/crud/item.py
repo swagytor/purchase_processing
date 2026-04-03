@@ -1,4 +1,4 @@
-from typing import List, Sequence
+from typing import Sequence
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,7 +14,9 @@ async def get_items(db: AsyncSession) -> Sequence[Item]:
 
 async def get_item_by_id(db: AsyncSession, item_id: int) -> Item:
     result = await db.execute(
-        select(Item).options(selectinload(Item.stocks)).where(Item.id == item_id)
+        select(Item)
+        .options(selectinload(Item.stocks))
+        .where(Item.id == item_id)
     )
 
     return result.scalars().first()

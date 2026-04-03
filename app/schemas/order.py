@@ -13,6 +13,7 @@ class OrderCreate(BaseModel):
     class Config:
         from_attributes = True
 
+
 class OrderItemRead(BaseModel):
     stock_id: int
     quantity: int
@@ -21,12 +22,14 @@ class OrderItemRead(BaseModel):
     class Config:
         from_attributes = True
 
+
 class OrderRead(BaseModel):
     id: int
     user_id: int
     status: OrderStatus
     total_quantity: int
     total_price: int
+
 
 class OrderDetailRead(OrderRead):
     order_items: List[OrderItemRead] = []
