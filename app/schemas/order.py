@@ -27,4 +27,6 @@ class OrderRead(BaseModel):
     status: OrderStatus
     total_quantity: int
     total_price: int
+
+class OrderDetailRead(OrderRead):
     order_items: List[OrderItemRead] = []
