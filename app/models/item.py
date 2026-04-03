@@ -12,4 +12,4 @@ class Item(Base):
     title = Column(String, nullable=False, comment="Название")
     description = Column(String, nullable=True, comment="Описание")
 
-    stock = relationship("ItemStock", back_populates="item",)
+    stocks = relationship("ItemStock", back_populates="item",)
