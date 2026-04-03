@@ -7,7 +7,6 @@ from models.order import OrderStatus
 
 class OrderCreate(BaseModel):
     item_id: int
-    user_id: int
     max_price: int
     quantity: int
 
