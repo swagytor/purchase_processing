@@ -22,4 +22,4 @@ class Order(Base):
     total_quantity = Column(Integer, nullable=False, default=1, comment="Общее количество")
     total_price = Column(Integer, nullable=False, default=0, comment="Общая цена")
 
-    items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
+    order_items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
