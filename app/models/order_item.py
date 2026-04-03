@@ -6,6 +6,7 @@ from core.db import Base
 
 class OrderItem(Base):
     """Модель товара в заказе"""
+
     __tablename__ = "order_items"
 
     id = Column(Integer, primary_key=True)

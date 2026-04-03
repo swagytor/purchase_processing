@@ -14,7 +14,10 @@ async def get_item_stocks(
     max_price: Optional[int] = None,
     desc_order: bool = False,
 ) -> Sequence[ItemStock]:
-    """Получение стоков товара с фильтрацией по цене и сортировкой по цене и количеству"""
+    """
+    Получение стоков товара
+    с фильтрацией по цене и сортировкой по цене и количеству
+    """
     query = select(ItemStock).where(ItemStock.item_id == item_id)
     if max_price:
         query = query.where(ItemStock.price <= max_price)

@@ -10,9 +10,11 @@ from schemas import ItemStockRead
 
 router = APIRouter(prefix="/item_stocks")
 
+
 class ItemStockSortByParamEnum(str, Enum):
     PRICE = "price"
     QUANTITY = "quantity"
+
 
 @router.get("/", response_model=List[ItemStockRead])
 async def read_item_stocks(
@@ -23,6 +25,12 @@ async def read_item_stocks(
     db: AsyncSession = Depends(get_db),
 ):
     """Получение списка стоков товара"""
-    stocks = await get_item_stocks(db=db, item_id=item_id, max_price=max_price, sort_by=sort_by, desc_order=desc_order)
+    stocks = await get_item_stocks(
+        db=db,
+        item_id=item_id,
+        max_price=max_price,
+        sort_by=sort_by,
+        desc_order=desc_order,
+    )
 
     return stocks

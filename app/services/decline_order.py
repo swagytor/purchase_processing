@@ -8,7 +8,6 @@ from models.order import OrderStatus
 
 
 class DeclineOrderService:
-
     def __init__(self, db: AsyncSession):
         self.db = db
 
@@ -48,7 +47,9 @@ class DeclineOrderService:
     async def discard_order_items(self, order: Order) -> None:
         for order_item in order.order_items:
             query = (
-                select(ItemStock).where(ItemStock.id == order_item.stock_id).with_for_update()
+                select(ItemStock)
+                .where(ItemStock.id == order_item.stock_id)
+                .with_for_update()
             )
             result_stock = await self.db.execute(query)
             stock = result_stock.scalars().first()

@@ -15,7 +15,10 @@ class ItemStock(Base):
     price = Column(Integer, nullable=False, default=0, comment="Цена")
     quantity = Column(Integer, nullable=False, default=1, comment="Количество")
     reserved_quantity = Column(
-        Integer, nullable=False, default=0, comment="Зарезервированное количество"
+        Integer,
+        nullable=False,
+        default=0,
+        comment="Зарезервированное количество",
     )
 
     item = relationship("Item", back_populates="stocks")
